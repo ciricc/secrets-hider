@@ -18,7 +18,7 @@ import (
 func NewModifier(opts ...Option) (zerologgrpcprovider.RequestValueModifier, error) {
 	options := &Options{
 		secretsTokensList: []*regexp.Regexp{
-			regexp.MustCompile(`/password|secret|token|key|pass|pin|code/i`),
+			regexp.MustCompile(`(?i)password|secret|token|key|pass|pin|code`),
 		},
 		mask: DefaultMask,
 	}
@@ -32,7 +32,7 @@ func NewModifier(opts ...Option) (zerologgrpcprovider.RequestValueModifier, erro
 
 	return func(key, value string) (newValue string, err error) {
 		for _, secretToken := range options.secretsTokensList {
-			if secretToken.FindStringSubmatch(key) != nil {
+			if secretToken.MatchString(key) {
 				return options.mask, nil
 			}
 		}
