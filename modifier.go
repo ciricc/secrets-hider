@@ -30,9 +30,10 @@ func NewModifier(opts ...Option) (zerologgrpcprovider.RequestValueModifier, erro
 		}
 	}
 
-	return func(key, value string) (newValue string, err error) {
+	return func(key string, value any) (newValue any, err error) {
 		for _, secretToken := range options.secretsTokensList {
-			if secretToken.MatchString(key) {
+			_, isMapValue := value.(map[string]interface{})
+			if secretToken.MatchString(key) && !isMapValue {
 				return options.mask, nil
 			}
 		}
