@@ -1,5 +1,5 @@
 {
-	"name": "Hide senditive data modifier",
+	"name": "Secrets hider",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "workspace",
 	"workspaceFolder": "/workspace",
